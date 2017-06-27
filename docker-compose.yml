@@ -1,24 +1,21 @@
+version: '3'
+services:
+    app:
+        restart: always
+        build: ./app
+        expose:
+            - "8080"
+        ports:
+            - "8080:8080"
+        # in order to use unicorn we need to change the command
+        # -w referes to number of wrokers
+        # -b specifies port
+        command: '/usr/local/bin/gunicorn -b :8080 app:app'
 
-app:
-    restart: always
-    build: ./app
-    expose:
-        - "8080"
-    ports:
-        - "8080:8080"
-    # in order to use unicorn we need to change the command
-    # -w referes to number of wrokers
-    # -b specifies port
-    command: '/usr/local/bin/gunicorn -w 2 -b :8080 app:app'
-
-nginx:
-    restart: always
-    build: ./nginx
-    expose:
-        - "80"
-    volumes_from:
-        - app
-    links:
-        - app:app
-    ports:
-        - "80:80"
+    nginx:
+        restart: always
+        build: ./nginx
+        expose:
+            - "8080"
+        ports:
+            - "80:80"

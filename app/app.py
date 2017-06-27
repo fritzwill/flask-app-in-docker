@@ -19,7 +19,7 @@ def index():
 # 	if request.method == 'POST':
 # 		return "You are using POST"
 # 	else:
-# 		return "You are probably using GET"
+# 		return "Yodocker rmi $(docker images -a -q)u are probably using GET"
 
 ##### HTML TEMPLATES #####
 @app.route('/<name>')
@@ -35,4 +35,4 @@ def profile(name):
 # app.wsgi_app = ProxyFix(app.wsgi_app)
 
 if __name__ == "__main__":
-	app.run()
+	app.run(host='0.0.0.0')
