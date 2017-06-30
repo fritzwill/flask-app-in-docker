@@ -2,8 +2,23 @@ from flask import Flask, render_template
 # include request above if you want request methods
 # include render_template above
 # from werkzeug.contrib.fixers import ProxyFix
+from flask_sqlalchemy import SQLAlchemy
+import psycopg2
 
 app = Flask(__name__)
+app.config['DEBUG'] = True # reload server on code change
+
+print "1"
+# postgress (database) config
+DB_USER = 'postgres'
+DB_PASS = 'password'
+DB_NAME = 'postgres'
+DB_HOST = 'localhost'
+#DB_PORT = '5432'
+
+conn = psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(DB_NAME, DB_USER, DB_PASS, DB_HOST))
+cur = conn.cursor()
+
 
 @app.route('/')
 def index():
@@ -32,7 +47,12 @@ def profile(name):
 # 	food = ["Cheese", "Tuna", "Beef"]
 # 	return render_template("shopping.html", food=food)
 
-# app.wsgi_app = ProxyFix(app.wsgi_app)
+@app.route('/users')
+def users():
+	cur.execute("SELECT * FROM users;")
+	results = cur.fetchone()
+	print type(results)
+	return results
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0')
