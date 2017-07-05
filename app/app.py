@@ -2,13 +2,11 @@ from flask import Flask, render_template
 # include request above if you want request methods
 # include render_template above
 # from werkzeug.contrib.fixers import ProxyFix
-from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 
 app = Flask(__name__)
 app.config['DEBUG'] = True # reload server on code change
 
-print "1"
 # postgress (database) config
 DB_USER = 'postgres'
 DB_PASS = 'password'
@@ -19,7 +17,7 @@ DB_HOST = 'localhost'
 conn = psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(DB_NAME, DB_USER, DB_PASS, DB_HOST))
 cur = conn.cursor()
 
-
+# Routes
 @app.route('/')
 def index():
 	return "Flask Dockerized"
@@ -46,6 +44,12 @@ def profile(name):
 # def shpping():
 # 	food = ["Cheese", "Tuna", "Beef"]
 # 	return render_template("shopping.html", food=food)
+
+@app.route('/adduser')
+def adduser():
+	cur.execute("INSERT INTO users VALUES (test, 5)")
+	results = cur.fetchone()
+	return results
 
 @app.route('/users')
 def users():
