@@ -11,11 +11,18 @@ app.config['DEBUG'] = True # reload server on code change
 DB_USER = 'postgres'
 DB_PASS = 'password'
 DB_NAME = 'postgres'
-DB_HOST = 'localhost'
+DB_HOST = 'db'
 #DB_PORT = '5432'
 
 conn = psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(DB_NAME, DB_USER, DB_PASS, DB_HOST))
 cur = conn.cursor()
+
+# Create table if not already made
+cur.execute("CREATE TABLE IF NOT EXISTS users ("
+	"id          INT PRIMARY KEY     NOT NULL, "
+    "username    varchar(255)    NOT NULL, "
+    "firstname   varchar(255)    NULL, " 
+    "lastname    varchar(255)    NULL);")
 
 # Routes
 @app.route('/')
@@ -47,9 +54,8 @@ def profile(name):
 
 @app.route('/adduser')
 def adduser():
-	cur.execute("INSERT INTO users VALUES (test, 5)")
-	results = cur.fetchone()
-	return results
+	cur.execute("INSERT INTO users (id, username, firstname, lastname) VALUES (1, 'willfritz', 'Will', 'Fritz');")
+	return "Added User"
 
 @app.route('/users')
 def users():
