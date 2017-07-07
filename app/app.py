@@ -56,11 +56,12 @@ def profile(name):
 @app.route('/adduser')
 def adduser():
 	cur.execute("INSERT INTO users (username, firstname, lastname) VALUES ('willfritz', 'Will', 'Fritz');")
+	conn.commit()
 	return "Added User"
 
 @app.route('/users')
 def users():
-	cur.execute("SELECT username FROM users LIMIT 1;")
+	cur.execute("SELECT username FROM users;")
 	results = cur.fetchall()
 	return results[0]
 
