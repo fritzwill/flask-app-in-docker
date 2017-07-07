@@ -20,7 +20,7 @@ cur = conn.cursor()
 
 # Create table if not already made
 cur.execute("CREATE TABLE IF NOT EXISTS users ("
-	"id          INT PRIMARY KEY     NOT NULL, "
+	"id          serial PRIMARY KEY     NOT NULL, "
     "username    varchar(255)    NOT NULL, "
     "firstname   varchar(255)    NULL, " 
     "lastname    varchar(255)    NULL);")
@@ -55,15 +55,14 @@ def profile(name):
 
 @app.route('/adduser')
 def adduser():
-	cur.execute("INSERT INTO users (id, username, firstname, lastname) VALUES (1, 'willfritz', 'Will', 'Fritz');")
+	cur.execute("INSERT INTO users (username, firstname, lastname) VALUES ('willfritz', 'Will', 'Fritz');")
 	return "Added User"
 
 @app.route('/users')
 def users():
-	cur.execute("SELECT * FROM users;")
-	results = cur.fetchone()
-	print type(results)
-	return results
+	cur.execute("SELECT username FROM users LIMIT 1;")
+	results = cur.fetchall()
+	return results[0]
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0')
