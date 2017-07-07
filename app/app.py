@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import os
 # include request above if you want request methods
 # include render_template above
 # from werkzeug.contrib.fixers import ProxyFix
@@ -11,7 +12,7 @@ app.config['DEBUG'] = True # reload server on code change
 DB_USER = 'postgres'
 DB_PASS = 'password'
 DB_NAME = 'postgres'
-DB_HOST = 'db'
+DB_HOST = 'database'
 #DB_PORT = '5432'
 
 conn = psycopg2.connect("dbname='{}' user='{}' password='{}' host='{}'".format(DB_NAME, DB_USER, DB_PASS, DB_HOST))
